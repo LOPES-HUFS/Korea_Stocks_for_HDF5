@@ -38,3 +38,5 @@ rsconnect/
 # for mac 
 *.DS_Store
 .DS_Store
+# for rstudio
+.Rprofile
