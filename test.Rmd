@@ -1,0 +1,70 @@
+---
+title: "testing"
+output: html_notebook
+---
+
+우선 필요한 것을 챙긴다.
+```{r}
+library(tidyverse)
+library(xts)
+library(h5)
+```
+자료를 입력!
+```{r}
+stock_005930 <- read.csv(file = "./stocks/005930.csv", header = TRUE, stringsAsFactors=FALSE)
+stock_066570 <- read.csv(file = "./stocks/066570.csv", header = TRUE, stringsAsFactors=FALSE)
+```
+
+확인
+```{r}
+head(stock_005930)
+```
+
+자료입력할 파일 작성
+```{r}
+f <- h5file("test.h5")
+```
+
+자료 입력
+```{r}
+f["colnames"] <- c('High','Low','Open','Close','Volume',"Adj Close")
+f["_005930/data"] <- as.matrix(stock_005930[c(2,3,4,5,6,7)])
+f["_005930/index"] <- as.matrix(stock_005930[1])
+f["_066570/data"] <- as.matrix(stock_066570[c(2,3,4,5,6,7)])
+f["_066570/index"] <- as.matrix(stock_066570[1])
+```
+자료 입력 확인
+```{r}
+f["colnames"]
+f["_005930/data"]
+f["_005930/index"]
+```
+
+입력한 파일 닫기
+```{r}
+h5close(f)
+```
+
+## 앞에서 만든 파일 열고 주식 자료 열기
+
+파일 열고 내용물 확인
+```{r}
+file <- h5file("test.h5")
+file
+```
+입력한 파일 열기
+```{r}
+new_005930 <- data.frame(file["_005930/data"][])
+colnames(new_005930) <- c('High','Low','Open','Close','Volume',"Adj Close")
+new_005930 <- as.xts(new_005930, order.by = as.Date(file["_005930/index"][]))
+
+new_066570 <- data.frame(file["_066570/data"][])
+colnames(new_066570) <- c('High','Low','Open','Close','Volume',"Adj Close")
+new_066570 <- as.xts(new_066570, order.by = as.Date(file["_066570/index"][]))
+```
+입력한 자료 확인
+
+```{r}
+head(new_005930)
+head(new_066570)
+```
