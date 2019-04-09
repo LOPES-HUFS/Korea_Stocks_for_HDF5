@@ -40,3 +40,4 @@ rsconnect/
 .DS_Store
 # for rstudio
 .Rprofile
+.Rproj.user
