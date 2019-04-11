@@ -41,3 +41,6 @@ rsconnect/
 # for rstudio
 .Rprofile
 .Rproj.user
+
+# Temporary html files created by R markdown
+*.html
