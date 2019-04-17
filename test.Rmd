@@ -1,14 +1,26 @@
 ---
 title: "testing"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
+
+## 우선 필요한 것을 챙깁니다.
+
+아래에서 설치되어 있지 않은 패키지가 있으면 설치합니다.
+```{r}
+install.packages("hdf5r")
+install.packages("tidyverse")
+install.packages("xts")
+```
 
 우선 필요한 것을 챙긴다.
 ```{r}
 library(tidyverse)
 library(xts)
-library(h5)
+library(hdf5r)
 ```
+
 자료를 입력!
 ```{r}
 stock_005930 <- read.csv(file = "./stocks/005930.csv", header = TRUE, stringsAsFactors=FALSE)
@@ -22,13 +34,14 @@ head(stock_005930)
 
 자료입력할 파일 작성
 ```{r}
-f <- h5file("test.h5")
+save_file_name <- "test.h5"
+file.h5 <- H5File$new(save_file_name, mode="w")
 ```
 
 자료 입력
 ```{r}
 f["colnames"] <- c('High','Low','Open','Close','Volume',"Adj Close")
-f["_005930/data"] <- as.matrix(stock_005930[c(2,3,4,5,6,7)])
+f["_005930/data", compression = 4L] <- as.matrix(stock_005930[c(2,3,4,5,6,7)])
 f["_005930/index"] <- as.matrix(stock_005930[1])
 f["_066570/data"] <- as.matrix(stock_066570[c(2,3,4,5,6,7)])
 f["_066570/index"] <- as.matrix(stock_066570[1])
