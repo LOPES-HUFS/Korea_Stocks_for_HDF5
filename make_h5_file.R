@@ -1,4 +1,4 @@
-library("hdf5")
+library(hdf5r)
 library(xts)
 library(plotly)
 stock_005930 <- read.csv(file = "./stocks/005930.csv", header = TRUE, stringsAsFactors=FALSE)
@@ -34,6 +34,6 @@ head(new_stock)
 
 
 stock_samsung <- data.frame(Date=as.Date(samsung_index[,]),samsung_data)
-plot_ly(stock_samsung,x=~Date,type="candlestick",
-                 open = ~Open, close = ~Adj.Close,
-                 high = ~High, low = ~Low)
+plot_ly(tail(stock_samsung,30),x=~Date,type="candlestick",
+        open = ~Open, close = ~Adj.Close,
+        high = ~High, low = ~Low) %>% layout(title = "Samsung month candle chart",xaxis=list(title = "Date"),yaxis=list(title = "Adj.Close"))
