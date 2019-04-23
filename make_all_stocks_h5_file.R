@@ -3,8 +3,19 @@ library(xts)
 
 savename <- "all_stocks.h5" #Name of file to create
 file.h5 <- H5File$new(savename, mode="w")
-
 path_list <- paste("./stocks","/",dir("./stocks"),sep="")
+
+# compound 형식일 때
+stock.grp <- file.h5$create_group("stocks")
+
+create_h5_file<-function(filename){
+    stock_temp <- read.csv(file = filename, header = TRUE, stringsAsFactors=FALSE)
+    data_name <- paste("_",substr(filename,10,15),sep = "")
+    stock.grp[[data_name]] <- stock_temp
+}
+#요런식으로 확인 가능 
+file.h5[['stocks/_000020']][1:file.h5[['stocks/_000020']]$dims]
+
 
 create_h5_file<-function(filename){
     stock_temp <- read.csv(file = filename, header = TRUE, stringsAsFactors=FALSE)
