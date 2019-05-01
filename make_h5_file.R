@@ -17,7 +17,7 @@ create_h5_file<-function(stocknumber){
     stock.grp[['data']] <- as.matrix(stock_temp[,2:7])
     stock.grp[['index']] <- as.matrix(stock_temp[,1])
     h5attr(stock.grp[["data"]], "colnames") <- colnames(stock_temp)[2:7]
-    h5attr(stock.grp[["index"]], "colnames") <- "Date"
+    h5attr(stock.grp[["index"]], "colnames") <- colnames(stock_temp)[1]
 }
 
 lapply(path_list,function(x){create_h5_file(x)})
@@ -27,6 +27,7 @@ file.h5$close_all()
 file.h5 <- H5File$new("temp.h5", mode="r+")
 temp_stock <- file.h5[[paste(names(file.h5)[1],"/data",sep = "")]]
 temp_data <- temp_stock[,]
+file.h5[[names(file.h5)[1]]]$ls() # 그룹 안에 어떤 계층들이 들어있는지 확인용 코드
 colnames(temp_data) <- h5attr(temp_stock,"colnames")
 temp_index <- file.h5[[paste(names(file.h5)[1],"/index",sep = "")]]
 new_stock <- as.xts(temp_data, order.by = as.Date(temp_index[,]))
