@@ -38,3 +38,22 @@ stock_samsung <- data.frame(Date=as.Date(samsung_index[,]),samsung_data)
 plot_ly(tail(stock_samsung,30),x=~Date,type="candlestick",
         open = ~Open, close = ~Adj.Close,
         high = ~High, low = ~Low) %>% layout(title = "Samsung month candle chart",xaxis=list(title = "Date"),yaxis=list(title = "Adj.Close"))
+
+install.packages("dygraphs")
+library(dygraphs)
+library(tidyverse)
+#temp에 rownames 로 날짜 넣어줌 
+sample <- H5Fopen("sample.h5")
+
+samsung_sample <- sample$"_005930"
+samsung_sample$data
+samsung_sample$index
+sample$colnames
+
+samsung_temp <- data.frame(samsung_sample$index,samsung_sample$data)
+colnames(samsung_temp) <- sample$colnames
+
+newTemp <- select(samsung_temp, "Open", "High", "Low", "Close")
+rownames(newTemp) <- samsung_temp$Date
+newTemp <- as.xts(newTemp)
+dygraph(newTemp['2019']) %>% dyCandlestick()
