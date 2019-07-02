@@ -10,7 +10,7 @@ create_h5_file<-function(filename){
     stock_temp$Date <- as.integer(paste(substr(stock_temp$Date,1,4),substr(stock_temp$Date,6,7),substr(stock_temp$Date,9,10),sep = ""))
     h5createGroup(file = "all_stock.h5",group = data_name)
     h5createDataset(file = "all_stock.h5", dataset = paste(data_name,"/data",sep=""), dims = c(NROW(stock_temp),7),storage.mode = "integer")
-    h5write(as.matrix(stock_temp), file="test_all_stock.h5",name=paste(data_name,"/data",sep=""))
+    h5write(as.matrix(stock_temp), file="all_stock.h5",name=paste(data_name,"/data",sep=""))
     }
 
 lapply(path_list,function(x){create_h5_file(x)})
@@ -23,7 +23,7 @@ library(tidyverse)
 #temp에 rownames 로 날짜 넣어줌 
 sample <- H5Fopen("all_stock.h5")
 
-samsung_sample <- sample$"kr005930"
+samsung_sample <- sample$"_005930"
 samsung_sample$data
 samsung_sample$index
 sample$colnames
