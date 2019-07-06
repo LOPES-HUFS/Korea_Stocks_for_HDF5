@@ -13,6 +13,8 @@
 전체 주식 종목 파일의 경우에는 코스피와 코스닥의 분류가 없기 때문에 다음과 같이 원하는 주식 종목에 접근해서 사용할 수 있습니다.
 
 ```
+library(rhdf5)
+
 all_sample <- H5Fopen("all_stock.h5")
 
 samsung_sample <- data.frame(all_sample$"_005930")
