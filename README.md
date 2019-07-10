@@ -30,6 +30,6 @@ samsung_sample$Date <- paste(substr(samsung_sample$Date,1,4),"-",substr(samsung_
 
 ## 참고사항
 
-R을 사용해 전체 주식 종목의 HDF5 파일을 만드는 방법은 [링크](https://choosunsick.github.io)의 글이나 이 깃허브의 R 스크립트의 코드를 통해 확인하실 수 있습니다. 
+R을 사용해 전체 주식 종목의 HDF5 파일을 만드는 방법은 [링크](https://choosunsick.github.io)의 글이나 이 깃허브의 [R 스크립트의 코드](https://github.com/LOPES-HUFS/Korea_Stocks_for_HDF5/blob/master/rhdf5%20compression.R)를 통해 확인하실 수 있습니다. 
 
 전체 주식 종목 데이터를 저장하는 파일인 "all_stock.h5" 파일은 일주일을 단위로 갱신될 것입니다. 깃허브에서는 아쉽게 GitHub는 100MB까지만 올릴 수 있기 때문에, 시간이 흘러 수집한 주식 자료가 더 방대해져 "all_stock.h5" 파일의 크기가 100MB가 넘어가게 될 경우 업데이트가 진행되지 않을 수 있습니다. 참고:[100 MB push limit](https://help.github.com/en/articles/conditions-for-large-files) 
