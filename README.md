@@ -56,7 +56,7 @@ newTemp <- as.xts(newTemp)
 dygraph(newTemp['2019'],main = "candlestick",group = "stock_graph") %>% dyRangeSelector() %>% dyCandlestick() 
 
 ```
-삼성전자의 2019년도 데이터를 기준으로 candle chart를 그리면 다음과 같은 결과를 얻을 수 있습니다. 
+위의 코드를 통해 삼성전자의 2019년도 데이터를 기준으로 candle chart를 그리면 다음과 같은 결과를 얻을 수 있습니다. 
 ![candlechart_005930](https://user-images.githubusercontent.com/19144813/60954387-d7c53600-a339-11e9-9629-59f9a3b253f1.png)
 
 
