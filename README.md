@@ -14,7 +14,7 @@
 
 ## 필요 패키지 설치 및 HDF5 파일 읽기
 
-필수적인 패키지인 "rhdf5"를 설치해줍니다. 전체 주식 종목 파일을 R로 읽어옵니다. 
+필수적인 패키지인 "rhdf5"를 설치해줍니다. 패키지 설치가 완료되었으면 전체 주식 종목이 담긴 HDF5 파일을 R로 읽어와 줍니다. 
 
 ```
 install.packages("BiocManager")
@@ -25,7 +25,7 @@ all_sample <- H5Fopen("all_stock.h5")
 
 ```
 
-## 파일 사용 예시
+## HDF5 파일 사용 예시
 
 이제 위에서 읽어온 파일을 사용하는 방법에 대해 소개하겠습니다. 예를 들어 전체 주식 종목 중 삼성전자의 데이터를 뽑아서 캔들차트를 그려봅시다. 데이터를 직접 사용하실 때에는 아래 코드 중 `data.frame(all_sample$kor_005930)` 코드의 "kor_005930" 부분을 "kor_원하는 주식 종목의 코드" 로 변경하면 원하는 주식 종목 데이터를 얻으실 수 있습니다. 
 
@@ -40,7 +40,7 @@ library(dygraphs)
 library(tidyverse)
 library(xts)
 
-# HDF5 파일에서 삼성전자 데이터 뽑아내기
+# 읽어온 HDF5 파일에서 삼성전자 데이터 뽑아내기
 
 samsung_sample <- data.frame(all_sample$kor_005930)
 colnames(samsung_sample) <- all_sample$colnames
