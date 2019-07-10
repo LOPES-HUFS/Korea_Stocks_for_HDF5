@@ -12,9 +12,9 @@
 
 [https://github.com/LOPES-HUFS/Korea_Stocks_for_HDF5/blob/master/all_stock.h5](https://github.com/LOPES-HUFS/Korea_Stocks_for_HDF5/blob/master/all_stock.h5)
 
-## 전체 주식 종목 파일 사용법
+## 필요 패키지 설치 및 HDF5 파일 읽기
 
-전체 주식 종목 파일의 경우에는 다음과 같이 원하는 주식 종목코드로 접근해서 사용할 수 있습니다. 아래의 코드는 파일 사용 예시로 전체 주식 종목 중 삼성전자의 데이터를 뽑는 경우입니다. 직접 사용하실 경우 `data.frame(all_sample$kor_005930)` 코드의 "kor_005930" 부분을 "kor_원하는 주식 종목의 코드" 로 변경해주셔서 사용하시면 됩니다. 
+필수적인 패키지인 "rhdf5"를 설치해줍니다. 전체 주식 종목 파일을 R로 읽어옵니다. 
 
 ```
 install.packages("BiocManager")
@@ -23,12 +23,42 @@ library(rhdf5)
 
 all_sample <- H5Fopen("all_stock.h5")
 
+```
+
+## 전체 주식 종목 파일 사용법
+
+이제 위에서 읽어온 파일을 사용하는 방법에 대해 소개하겠습니다. 예를 들어 전체 주식 종목 중 삼성전자의 데이터를 뽑아서 캔들차트를 그려봅시다. 데이터를 직접 사용하실 때에는 아래 코드 중 `data.frame(all_sample$kor_005930)` 코드의 "kor_005930" 부분을 "kor_원하는 주식 종목의 코드" 로 변경하면 원하는 주식 종목 데이터를 얻으실 수 있습니다. 
+
+```
+# 패키지 설치
+
+install.packages("dygraphs")
+install.packages("tidyverse")
+install.packages("xts")
+
+library(dygraphs)
+library(tidyverse)
+library(xts)
+
+# HDF5 파일에서 삼성전자 데이터 뽑아내기
+
 samsung_sample <- data.frame(all_sample$kor_005930)
 colnames(samsung_sample) <- all_sample$colnames
 samsung_sample$Date <- paste(substr(samsung_sample$Date,1,4),"-",substr(samsung_sample$Date,5,6),"-",substr(samsung_sample$Date,7,8),sep = "")
 
-samsung_sample
+head(samsung_sample)
+
+# 캔들 차트 그려보기 
+
+newTemp <- select(samsung_sample, "Open", "High", "Low", "Close")
+rownames(newTemp) <- samsung_sample$Date
+newTemp <- as.xts(newTemp)
+dygraph(newTemp['2019'],main = "candlestick",group = "stock_graph") %>% dyRangeSelector() %>% dyCandlestick() 
+
 ```
+삼성전자의 2019년도 데이터를 기준으로 candle chart를 그리면 다음과 같은 결과를 얻을 수 있습니다. 
+![candlechart_005930](https://user-images.githubusercontent.com/19144813/60954387-d7c53600-a339-11e9-9629-59f9a3b253f1.png)
+
 
 ## 참고사항
 
