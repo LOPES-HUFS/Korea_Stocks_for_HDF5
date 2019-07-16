@@ -21,8 +21,8 @@ h5write(c("Date","Open","High","Low","Close","Volume","Adj_Close"), "all_stock.h
 create_h5_file<-function(filename){
     stock_temp <- read.csv(file = filename, header = TRUE, stringsAsFactors=FALSE)
     data_name <- paste("kor_",substr(filename,10,15),sep = "")
-    stock_temp$Date <- as.integer(paste(substr(stock_temp$Date,1,4),substr(stock_temp$Date,6,7),substr(stock_temp$Date,9,10),sep = ""))
-    h5createDataset(file = "all_stock.h5", dataset = data_name, dims = c(NROW(stock_temp),7),storage.mode = "integer",level=9)
+    stock_temp$Date <- as.integer(gsub("-","",stock_temp$Date))
+    h5createDataset(file = "all_stock.h5", dataset = data_name, dims = dim(stock_temp),storage.mode = "integer",level=9)
     h5write(as.matrix(stock_temp), file="all_stock.h5",name=data_name)
     }
 
